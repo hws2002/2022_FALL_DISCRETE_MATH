@@ -25,9 +25,9 @@ Graphtype* makeGraph(int numberofVertex){
 }
 
 void deleteGraph(Graphtype *graph){
-    delete graph->visited;
+    delete[] graph->visited;
     for(int i=0;i<graph->num;i++){
-        delete graph->matrix[i];
+        delete[] graph->matrix[i];
     }
     delete []graph->matrix;
 }
