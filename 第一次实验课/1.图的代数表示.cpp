@@ -1,32 +1,30 @@
 #include <iostream>
+#include <vector>
 using namespace std;
-int N,M=0;
 int point_start[10005]={0};
 int point_end[10005]={0};
 int matrix[105][105] = {0};
 int first_block_num[105] = {0};
-int list[105][105] = {0};
-int list_index[105] = {0};
 int table_weight[10005] = {0};
+int edges_index[101] = {0};
 
 int main(){
+    int N,M=0;
     cin>>N>>M;
     //输入数据
+    vector<int> *edges = new vector<int>[N+1];
+    for(int i=1;i<N+1;i++){
+        edges[i].push_back(0);
+    }
     for (int i=1; i<M+1;i++){
         int u, v, w;
         cin>>u>>v>>w;
-        point_start[i] = u; point_end[i] = v;table_weight[i] = w;
+        point_start[i] = u; point_end[i] = v;table_weight[i] = w; edges[u].push_back(i);
         if(matrix[u][v]==0)
             matrix[u][v] = w;
         else 
             matrix[u][v] = -1;
         first_block_num[u] = i;
-        //表结点编号
-        int count = 1;
-        while(list[u][count] != 0){
-            count++;
-        }
-        list[u][count] = i;
     }
     //邻接矩阵输出
     for(int i=1;i<N+1;i++){
@@ -40,16 +38,17 @@ int main(){
     for(int i=1;i<N+1;i++){
         cout<<first_block_num[i]<<endl;
     }
-
+    
     //表结点输出
     for(int i=1;i<M+1;i++){
         int u = point_start[i];
         int v = point_end[i];
         int w = table_weight[i];
-        int index = list_index[u];
-        cout<<v<<" "<<w<<" "<<list[u][index]<<endl;
-        list_index[u]+=1;
+        int index = edges_index[u];
+        cout<<v<<" "<<w<<" "<<edges[u][index]<<endl;
+        edges_index[u]+=1;
     }
+    delete[] edges;
     return 0;
 }
 
